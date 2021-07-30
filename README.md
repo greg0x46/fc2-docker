@@ -1,6 +1,6 @@
 ## Geral 
 
-####Comandos básico
+#### Comandos básico
 - `docker`: lista comandos e suas descrições.
 - `docker ps`: lista containers ativos.
 - `docker ps -a`: lista todos containers.
@@ -31,7 +31,7 @@
 
 ## Volume
 
-####Basic commands
+#### Basic commands
 - `docker volume`: lista comandos relativos à volumes
 - `docker volume ls`: lista volumes.
 - `docker volume create <name>`: cria um volume.
@@ -48,7 +48,7 @@
 
 ## Dockerfile
 
-####File sintaxe
+#### File sintaxe
 - `FROM <image>:<version>`: define uma imagem base.
 - `ENV <var> <value>`: define uma variável de ambiente.
 - `USER <user>`: define o usuário do container (ele precisa existir)
@@ -62,7 +62,7 @@
 
 ## Network 
 
-####Types of network
+#### Types of network
 - **bridge** (default): compartilha rede entre containers
 - **host**: mescla rede dos containers e do host.
 - **overlay**: mescla rede entre diferente containers.
