@@ -9,7 +9,9 @@
 - `docker rm <container>`: remove a container.
 - `docker rm <container> -f`: remove a container with force option.
 - `docker ps -a -q`: list id of all containers.
-- `docker build <container-registry-user>/<image>:<version> <docker-file-path>`: build an imagem by docker file.
+- `docker build <container-registry-user>/<image>:<version> <docker-file-path>`: build an imagem from Dockerfile.
+- - `docker build <container-registry-user>/<image>:<version> <docker-file-path> -f Dockerfile.prd`: build an imagem from a specific Dockerfile, in this example it is Dockerfile.prd.
+- `docker logs <container>`: show container logs.
 - `docker login`: login dockerhub.
 - `docker logout`: logout dockerhub.
 
