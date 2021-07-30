@@ -1,88 +1,86 @@
-##General 
+## Geral 
+
+####Comandos básico
+- `docker`: lista comandos e suas descrições.
+- `docker ps`: lista containers ativos.
+- `docker ps -a`: lista todos containers.
+- `docker start <container>`: inicia um container.
+- `docker stop <container>`: para um container.
+- `docker rm <container>`: deleta um container.
+- `docker rm <container> -f`: força a exclusão de um container
+- `docker ps -a -q`: lista o id de todos containers
+- `docker build <container-registry-user>/<image>:<version> <docker-file-path>`: constroi um imagem a partir de um dockerfile padrão.
+- - `docker build <container-registry-user>/<image>:<version> <docker-file-path> -f Dockerfile.prd`: constroi um imagem a partir de um dockerfile específico.
+- `docker logs <container>`: exibe logs de um container.
+- `docker login`: loga no dockerhub.
+- `docker logout`: desloga do dockerhub.
+
+#### Docker run
+- `docker run <image>`: sobe um container a partir da imagem (tag default latest).
+- `docker run <image>:<tag>`: sobe um container a partir de uma imagem e de uma tag.
+- `docker run -i <...>`: -i significa interativo, "anexa" o terminal ao container.
+- `docker run -t <...>`: -t significa tty, permite rodar comandos no container.
+- `docker run -it <...> bash`: executa um container com as opções -i e -t e abre o bash do container no terminal.
+- `docker run --rm <...>`: remove automaticamente um container após sua execução.
+- `docker run -p <host-port>:<container-port> <...>`: cria um link entre uma porta do docker host e docker container.
+- `docker run -d <...>`: -d segnifica desanexar, libera o terminal (roda em background).
+- `docker run --name <name>`: define um nome para o container
+- `docker run -v <docker-host-path>:<docker-container-path> <...>`: mapeia uma pasta do docker host para o container, cria a pasta caso não exista.
+- `docker run --mount type=bind,source=<docker-host-path>,target=<docker-container-path>`: melhor forma de mapeiar uma pasta do host para o container (não cria pastas).
+- `docker run --mount type=volume,source=<volume-name>,target=<docker-container-path>`: mapeia um volume no container.
+
+## Volume
 
 ####Basic commands
-- `docker`: show a list of commands and their descriptions.
-- `docker ps`: list active containers.
-- `docker ps -a`: list all containers.
-- `docker start <container>`: start a container
-- `docker stop <container>`: stop a container
-- `docker rm <container>`: remove a container.
-- `docker rm <container> -f`: remove a container with force option.
-- `docker ps -a -q`: list id of all containers.
-- `docker build <container-registry-user>/<image>:<version> <docker-file-path>`: build an imagem from Dockerfile.
-- - `docker build <container-registry-user>/<image>:<version> <docker-file-path> -f Dockerfile.prd`: build an imagem from a specific Dockerfile, in this example it is Dockerfile.prd.
-- `docker logs <container>`: show container logs.
-- `docker login`: login dockerhub.
-- `docker logout`: logout dockerhub.
+- `docker volume`: lista comandos relativos à volumes
+- `docker volume ls`: lista volumes.
+- `docker volume create <name>`: cria um volume.
+- `docker volume inspect <name>`: exibe detalhes do volume.
+- `docker volume prune`: delete volumes que não estão em uso.
 
-####Docker run
-- `docker run <image>`: run a container from a image in the latest tag.
-- `docker run <image>:<tag>`: run a container from a image in the specific tag.
-- `docker run -i <...>`: -i means interactive, attach terminal to container.
-- `docker run -t <...>`: -t means tty, allows to run commands in the terminal.
-- `docker run -it <...> bash`: run a container with -i and -t options and open a bash in the terminal.
-- `docker run --rm <...>`: remove the conteiner after your execution.
-- `docker run -p <host-port>:<container-port> <...>`: link a port from docker host to a port from docker container.
-- `docker run -d <...>`: -d option means detached, detached the terminal (background).
-- `docker run --name <name>`: set a name for container.
-- `docker run -v <docker-host-path>:<docker-container-path> <...>`: mapping a folder from docker host to docker container, create folder if not exists.
-- `docker run --mount type=bind,source=<docker-host-path>,target=<docker-container-path>`: best way to mapping a folder from docker host to docker container.
-- `docker run --mount type=volume,source=<volume-name>,target=<docker-container-path>`: mapping a volume to docker container.
-
-##Volume
+## Images
 
 ####Basic commands
-- `docker volume`: show a list of commands and their descriptions.
-- `docker volume ls`: show a list of volumes.
-- `docker volume create <name>`: create a volume.
-- `docker volume inspect <name>`: show details of the volume.
-- `docker volume prune`: Remove all unused local volumes
-
-##Images
-
-####Basic commands
-- `docker pull`: download an image
-- `docker push <container-registry-user>/<image>:<version>`: send a image to docker hub.
-- `docker rmi <image>:<tag>`: remove an image
+- `docker pull <image>:<tag>`: baixa uma imagem.
+- `docker push <container-registry-user>/<image>:<version>`: faz upload de uma imagem para o dockerhub.
+- `docker rmi <image>:<tag>`: deleta uma  imagem
 
 
-##Dockerfile
+## Dockerfile
 
 ####File sintaxe
-- `FROM <image>:<version>`: define image from container registry.
-- `ENV <var> <value>`: set a env variable
-- `USER <user>`: define a user (default is root), this user needs to exist.
-- `WORKDIR <container-path>`: "path root" of the cointaner.
-- `RUN <command>`: run a command
-- `COPY <docker-host-path> <docker-container-path>`: copy a file from host do container, "\<docker-host-path\>" is relative to path of Dockerfile.
-- `EXPOSE <port>`: Expose a port of container.
-- `ENTRYPOINT ["echo", "Hello World"]`: "ENTRYPOINT" run in the end like "CMD", but him will always run and cannot be overwritten in the run command.
-- `CMD ["echo", "Hello World"]`: "CMD" runs in the end, it can be overwritten by command, example `docker run <...> bash`, the "bash" command wil overwrite `["echo", "Hello World"]`
+- `FROM <image>:<version>`: define uma imagem base.
+- `ENV <var> <value>`: define uma variável de ambiente.
+- `USER <user>`: define o usuário do container (ele precisa existir)
+- `WORKDIR <container-path>`: define "pasta principal" do container.
+- `RUN <command>`: executa um comando.
+- `COPY <docker-host-path> <docker-container-path>`: copia um arquivo do host para o container, "\<docker-host-path\>" é relativo ao path do Dockerfile.
+- `EXPOSE <port>`: expõe uma porta do container
+- `ENTRYPOINT ["echo", "Hello World"]`: é executado no final do script do Dockerfile, antes do CMD, esse comando sempre será executado e pode ser utilizado para manter o container rodando.
+- `CMD ["echo", "Hello World"]`: é executa no final do script do Dockerfile, podde ser sobrescrito pelo comando run, exemplo `docker run <...> bash` nesse caso o "bash" iria sobrescrever o `["echo", "Hello World"]`.
 
 
-##Network 
+## Network 
 
 ####Types of network
-- **bridge** (default): communication between containers.
-- **host**: merge docker host network and containers network.
-- **overlay**: merge network between diferent containers.
-- **maclan**:  assign a MAC adress to each containers, making it appear to be a physical network interface.
-- **none**: without network.
+- **bridge** (default): compartilha rede entre containers
+- **host**: mescla rede dos containers e do host.
+- **overlay**: mescla rede entre diferente containers.
+- **maclan**:  define um MAC address para cada container, simulando uma rede fisica.
+- **none**: sem network.
 
-####Commands of network    
-- `docker network`: show a list of docker network commands and their descriptions.
-- `docker network create --driver bridge mynetwork`: example of create network command.
-- `docker run <...> --network mynetwork`: example of command to run a container with custom network.
-- `docker network connect <network> <container>`: connect a container in a network.
+#### Comandos de network    
+- `docker network`: exibe uma lista de comandos relativo à network.
+- `docker network create --driver bridge mynetwork`: exemplo do comando utilizado para criar uma network.
+- `docker run <...> --network mynetwork`: examplo de comando para subir um conetainer anexando uma network.
+- `docker network connect <network> <container>`: conecta um container a uma network.
 
-
-##Hacks
-- `docker rm $(docker ps -a -q) -f` : remove all containers.
-- `curl http://host.docker.internal:8000`: 
-"http://host.docker.internal" is the docker host address, which can be accessed from a container, in this example it does an CURL on localhost of docker host on port 8000.
-- `docker run --mount type=bind,source="$(pwd)"/html,target=<docker-container-path>`: "$(pwd)" can be use to be represents current folder.
-- `RUN apt-get update && apt-get install -y`: In Dockerfile context "&&" can be use to run more than command sequentially and "-y" to confirm installation without interaction.
--`\`: In Dockerfile context "\\" can be used to execute commands on different lines as if they were on the same line. 
+## Hacks
+- `docker rm $(docker ps -a -q) -f` : remove todos containers
+- `curl http://host.docker.internal:8000`: "http://host.docker.internal" é o endereço do docker host, ele pode ser utilziado para acessar um serviço do host a partir de um container.
+- `docker run --mount type=bind,source="$(pwd)"/html,target=<docker-container-path>`: "$(pwd)" pode ser usado para obter o diretório atual.
+- `RUN apt-get update && apt-get install -y`: No contexto de um Dockerfile "&&" pode ser utilizado para concatenar comandos que devem ser executados sequencialmente.
+-`\`: No contexto de um Dockerfile "\\" pode ser utilizado para concatenar linhas, de forma a executar comandos em multipas linhas como se estivessem na mesma.
 `````
 RUN apt-get update && \ 
     apt-get install -y
